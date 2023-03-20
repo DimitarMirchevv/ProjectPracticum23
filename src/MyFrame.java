@@ -444,14 +444,17 @@ public void clearFormQ() {
     public void refreshComboTBR() {
        readerCb.removeAllItems();
         conn=DBConnection.getConnection();
-        String sql="select id from readers";
-        String item="";
+        String sql="select id, fname, lname from readers";
+        String item ="";
+
 
         try {
             state=conn.prepareStatement(sql);
             result=state.executeQuery();
             while(result.next()) {
-                item=result.getObject(1).toString();
+                item=result.getObject(1).toString()+"."+
+                        result.getObject(2).toString()+" "+
+                        result.getObject(3).toString();
                 readerCb.addItem(item);
             }
         } catch (SQLException e) {
@@ -729,14 +732,16 @@ public void clearFormQ() {
     public void refreshComboTBB() {
         bookCb.removeAllItems();
         conn=DBConnection.getConnection();
-        String sql="select id from books";
+        String sql="select id, title, author from books";
         String item="";
 
         try {
             state=conn.prepareStatement(sql);
             result=state.executeQuery();
             while(result.next()) {
-                item=result.getObject(1).toString();
+                item=result.getObject(1).toString()+"."
+                        +result.getObject(2).toString()+" "
+                        +result.getObject(3).toString();
                 bookCb.addItem(item);
             }
         } catch (SQLException e) {
@@ -752,10 +757,20 @@ public void clearFormQ() {
 
             conn = DBConnection.getConnection();
             String sql = "insert into takenbooks(reader_id, book_id, issuedate, returndate) values(?,?,?,?)";
+
+            String vaS =readerCb.getSelectedItem().toString();
+            int va = Integer.parseInt(vaS.substring(0,vaS.indexOf('.')));
+
+
+            String valS =bookCb.getSelectedItem().toString();
+            int val = Integer.parseInt(valS.substring(0,valS.indexOf('.')));
+            // System.out.printf(va + " " + val);
+
             try {
                 state = conn.prepareStatement(sql);
-                state.setString(1, readerCb.getSelectedItem().toString());
-                state.setString(2, bookCb.getSelectedItem().toString());
+                state.setInt(1, va);
+                state.setInt(2, val);
+               // state.setString(2, bookCb.getSelectedItem().toString());
                 state.setString(3, dateOfGTF.getText());
                 state.setString(4, dateToRTF.getText());
 
@@ -767,7 +782,6 @@ public void clearFormQ() {
                 // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
-
         }
 
     }
