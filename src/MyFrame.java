@@ -93,6 +93,8 @@ public class MyFrame extends JFrame {
 
     //2nd QUERY
     JLabel fnameQ2L =new JLabel("Специалност:");
+    JComboBox specialityCb = new JComboBox(Specialty.values());
+
     JLabel lnameQ2L =new JLabel("Автор:");
     JTextField fnameQ2TF =new JTextField();
     JTextField lnameQ2TF =new JTextField();
@@ -277,7 +279,8 @@ public class MyFrame extends JFrame {
         queryPanel2.add(queryPanelUp2);
 
         queryPanelUp2.add(fnameQ2L);
-        queryPanelUp2.add(fnameQ2TF);
+        queryPanelUp2.add(specialityCb);
+        //queryPanelUp2.add(fnameQ2TF);
         queryPanelUp2.add(lnameQ2L);
         queryPanelUp2.add(lnameQ2TF);
         fnameQ2TF.setPreferredSize(new Dimension(90,30));
